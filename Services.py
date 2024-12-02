@@ -1,19 +1,17 @@
 import time
-import sys
-
 import stomp
-
+import random as rand
 class MyListener(stomp.ConnectionListener):
-    def on_error(self, frame):
-        print('received an error "%s"' % frame.body)
+    def on_message(self, headers, message):
+        print('MyListener:\nreceived a message "{}"\n'.format(message))
+        global read_messages
+        read_messages.append({'id': headers['message-id'], 'subscription':headers['subscription']})
 
-    def on_message(self, frame):
-        print('received a message "%s"' % frame.body)
+read_messages = []
+hosts = [('localhost', 61613)]
 
-conn = stomp.Connection()
-conn.set_listener('', MyListener())
-conn.connect('admin', 'password', wait=True)
-conn.subscribe(destination='/queue/test', id=1, ack='auto')
-conn.send(body=' '.join(sys.argv[1:]), destination='/queue/test')
-time.sleep(2)
-conn.disconnect()
+conn = stomp.Connection(host_and_ports=hosts)
+conn.set_listener('my_listener', stomp.PrintingListener())
+conn.connect(wait=True)
+conn.subscribe(destination='test.req', id=1, ack='client-individual')
+conn.send(destination='test.req', body=str(rand.randint(0,2**16)))
