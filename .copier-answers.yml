@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier
+_commit: 2.5.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: richard.cunningham@diamond.ac.uk
+author_name: Richard Cunningham
+description: In progress Neural Network Bimorph Mirror optimisation
+distribution_name: bimorph-adaptive-plan
+docker: false
+docs_type: README
+git_platform: github.com
+github_org: DiamondRC
+package_name: bimorph_adaptive_plan
+pypi: true
+repo_name: bimorph-adaptive-plan
+type_checker: pyright
